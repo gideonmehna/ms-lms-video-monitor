@@ -126,7 +126,8 @@ jQuery(document).ready(function($) {
             disableNextButton();
 
             function retrieveVideoLength() {
-                var videoLengthText = $('.plyr__time--current').text() || $('.plyr__tooltip').text();
+                // ----------------------------------------------------
+                var videoLengthText = $('.vjs-duration-display').text() || $('.plyr__time--current').text() || $('.plyr__tooltip').text();
                 if (!videoLengthText || videoLengthText === '00:00') {
                     if (retryCount < maxRetries) {
                         retryCount++;
@@ -202,7 +203,7 @@ jQuery(document).ready(function($) {
         }
 
         function initVideoPlayer() {
-            videoPlayer = $('.plyr__video-wrapper iframe');
+            videoPlayer = $('.masterstudy-course-player-lesson-video iframe');
             if (videoPlayer.length === 0) {
                 if (retryCount < maxRetries) {
                     setTimeout(function() {
