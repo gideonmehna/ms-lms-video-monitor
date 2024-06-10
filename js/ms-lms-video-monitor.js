@@ -32,7 +32,6 @@ jQuery(document).ready(function($) {
     if ($('.masterstudy-course-player-navigation__status').length) {
         return;
     }
-   
 
     var attempts = 0;
     var maxAttempts = 10;
@@ -50,7 +49,7 @@ jQuery(document).ready(function($) {
                     $('.masterstudy-course-player-navigation__next .masterstudy-nav-button').css('display', 'block');
                     return; // Exit if video monitor is not enabled
                 }
-              
+
                 // Continue with your logic here
                 initVideoPlayer();
 
@@ -69,7 +68,7 @@ jQuery(document).ready(function($) {
     }, interval);
 
     function initVideoPlayer() {
-        var videoPlayer = null; // Selector for YouTube video players
+        var videoPlayer = null; // Selector for Jetpack VideoPress video players
         var completeNextButton = $('.masterstudy-course-player-navigation__next .masterstudy-nav-button');
         var remainingTimeDisplay = $('<div class="masterstudy-course-player-lesson remaining-time-display"></div>'); // New element to show remaining time
         var videoLength = 0;
@@ -126,9 +125,10 @@ jQuery(document).ready(function($) {
             disableNextButton();
 
             function retrieveVideoLength() {
-                // ----------------------------------------------------
-                var videoLengthText = $('.vjs-duration-display').text() || $('.plyr__time--current').text() || $('.plyr__tooltip').text();
-                if (!videoLengthText || videoLengthText === '00:00') {
+                var videoPlayerElement = videoPlayer[0];
+                var duration = videoPlayerElement.duration;
+
+                if (isNaN(duration) || duration <= 0) {
                     if (retryCount < maxRetries) {
                         retryCount++;
                         console.log('Retrying to retrieve video length... Attempt #' + retryCount);
@@ -139,12 +139,7 @@ jQuery(document).ready(function($) {
                     return;
                 }
 
-                videoLength = formatTimeToSeconds(videoLengthText);
-                if (isNaN(videoLength) || videoLength <= 0) {
-                    logError('Invalid video length: ' + videoLengthText + '. Ensure the time format is valid (hh:mm:ss, mm:ss, or ss).');
-                    return;
-                }
-
+                videoLength = duration;
                 remainingTime = videoLength;
                 updateRemainingTimeDisplay();
             }
@@ -173,33 +168,6 @@ jQuery(document).ready(function($) {
             alert('Please do not skip the video.');
             location.reload();
             return;
-            // var modalHtml = `
-            //     <div class="masterstudy-modal">
-            //         <div class="masterstudy-modal-content">
-            //             <span class="masterstudy-close">&times;</span>
-            //             <p>Please do not skip the video.</p>
-            //         </div>
-            //     </div>
-            // `;
-
-            // $('body').append(modalHtml);
-
-            // var modal = $('.masterstudy-modal');
-            // var span = $('.masterstudy-close');
-
-            // modal.show();
-
-            // span.on('click', function() {
-            //     modal.remove();
-            //     location.reload();
-            // });
-
-            // $(window).on('click', function(event) {
-            //     if ($(event.target).is(modal)) {
-            //         modal.remove();
-            //         location.reload();
-            //     }
-            // });
         }
 
         function initVideoPlayer() {
@@ -222,42 +190,21 @@ jQuery(document).ready(function($) {
 
             initialize();
 
-            videoPlayer.on('load', function() {
-                videoPlayer.on('play', function() {
-                    interval = setInterval(function() {
-                        videoPlayer[0].contentWindow.postMessage({ event: 'infoDelivery', info: { currentTime: true } }, '*');
-                    }, 1000);
-                });
-
-                videoPlayer.on('pause', function() {
-                    clearInterval(interval);
-                });
-
-                videoPlayer.on('ended', function() {
-                    clearInterval(interval);
-                    watchedDuration = videoLength;
-                    enableNextButton();
-                });
+            videoPlayer.on('play', function() {
+                interval = setInterval(function() {
+                    var currentTime = videoPlayer[0].currentTime;
+                    checkVideoProgress(currentTime);
+                }, 1000);
             });
 
-            window.addEventListener('message', function(event) {
-                let eventData;
+            videoPlayer.on('pause', function() {
+                clearInterval(interval);
+            });
 
-                if (typeof event.data === 'string') {
-                    try {
-                        eventData = JSON.parse(event.data);
-                    } catch (e) {
-                        console.error('Failed to parse event data:', e);
-                        return;
-                    }
-                } else {
-                    eventData = event.data;
-                }
-
-                if (eventData.event === 'infoDelivery' && eventData.info && eventData.info.currentTime) {
-                    console.log(eventData.info.currentTime);
-                    checkVideoProgress(eventData.info.currentTime);
-                }
+            videoPlayer.on('ended', function() {
+                clearInterval(interval);
+                watchedDuration = videoLength;
+                enableNextButton();
             });
         }
 
