@@ -1,4 +1,5 @@
 MasterStudy LMS Video Monitor. 
+This works best with master study video player.
 
 Problem: With MasterStudy LMS, students can just skip over video lessons without actually going through the material. 
 
