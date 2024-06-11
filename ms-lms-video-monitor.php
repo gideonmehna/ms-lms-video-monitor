@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: MS LMS Video Monitor 
-Description: Ensures a user has watched an entire YouTube video lesson before allowing them to click the "Complete & Next" button.
+Description: Ensures a user has watched an entire JetPack video lesson before allowing them to click the "Complete & Next" button.
 Version: 1.0
 Author: Gideon Mehna
 URI: https://elyownsoftware.com
