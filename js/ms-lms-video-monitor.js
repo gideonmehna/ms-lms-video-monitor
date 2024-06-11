@@ -41,7 +41,7 @@ jQuery(document).ready(function($) {
 
     var checkPostData = setInterval(function() {
         if (post_data.post_id && post_data.ajax_url) {
-            console.log('post_data:', post_data);
+         
             clearInterval(checkPostData);
 
             fetchCustomFieldValue(post_data).then(function(enableVideoMonitor) {
@@ -59,7 +59,7 @@ jQuery(document).ready(function($) {
             });
         } else {
             attempts++;
-            console.log('Attempt', attempts, 'post_data not ready yet.');
+            // console.log('Attempt', attempts, 'post_data not ready yet.');
 
             if (attempts >= maxAttempts) {
                 clearInterval(checkPostData);
@@ -130,7 +130,7 @@ jQuery(document).ready(function($) {
                 if (!videoLengthText || videoLengthText === '00:00') {
                     if (retryCount < maxRetries) {
                         retryCount++;
-                        console.log('Retrying to retrieve video length... Attempt #' + retryCount);
+                        
                         setTimeout(retrieveVideoLength, retryInterval);
                     } else {
                         logError('Unable to retrieve valid video length information after ' + maxRetries + ' retries.');
@@ -172,33 +172,7 @@ jQuery(document).ready(function($) {
             alert('Please do not skip the video.');
             location.reload();
             return;
-            // var modalHtml = `
-            //     <div class="masterstudy-modal">
-            //         <div class="masterstudy-modal-content">
-            //             <span class="masterstudy-close">&times;</span>
-            //             <p>Please do not skip the video.</p>
-            //         </div>
-            //     </div>
-            // `;
-
-            // $('body').append(modalHtml);
-
-            // var modal = $('.masterstudy-modal');
-            // var span = $('.masterstudy-close');
-
-            // modal.show();
-
-            // span.on('click', function() {
-            //     modal.remove();
-            //     location.reload();
-            // });
-
-            // $(window).on('click', function(event) {
-            //     if ($(event.target).is(modal)) {
-            //         modal.remove();
-            //         location.reload();
-            //     }
-            // });
+            
         }
 
         function initVideoPlayer() {
@@ -207,7 +181,6 @@ jQuery(document).ready(function($) {
                 if (retryCount < maxRetries) {
                     setTimeout(function() {
                         retryCount++;
-                        console.log('Retrying... Attempt #' + retryCount);
                         initVideoPlayer();
                     }, retryInterval);
                 } else {
@@ -215,7 +188,6 @@ jQuery(document).ready(function($) {
                 }
                 return;
             } else {
-                console.log("Video Player found");
                 console.log(videoPlayer);
             }
 
@@ -254,7 +226,6 @@ jQuery(document).ready(function($) {
                 }
 
                 if (eventData.event === 'infoDelivery' && eventData.info && eventData.info.currentTime) {
-                    console.log(eventData.info.currentTime);
                     checkVideoProgress(eventData.info.currentTime);
                 }
             });

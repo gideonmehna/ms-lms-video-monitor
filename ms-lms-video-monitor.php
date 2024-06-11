@@ -12,8 +12,6 @@ License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 */
 
-// Your plugin code goes here
-?>
 
 
 // Enqueue scripts and styles
