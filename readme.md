@@ -4,6 +4,7 @@ This works best with JetPack video player.
 DOES NOT WORK YET. 
 REASON why it does not work?  Cannot seem to get the video length. 
 Possible solution: Use Scraping. To get the video length, if it is possible to scrape an iframe. 
+Problem: We cannot scrape because of Cross Origin Policy
 
 Problem: With MasterStudy LMS, students can just skip over video lessons without actually going through the material. 
 
