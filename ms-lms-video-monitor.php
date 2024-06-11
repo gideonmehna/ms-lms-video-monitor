@@ -1,11 +1,20 @@
 <?php
 /*
 Plugin Name: MS LMS Video Monitor 
-Description: Ensures a user has watched an entire YouTube video lesson before allowing them to click the "Complete & Next" button.
-Version: 1.0
+Description: Ensure your students are fully engaged with their video lessons. The MS LMS Video Monitor plugin verifies that a user has watched the entire video lesson on platforms like YouTube before enabling the "Complete & Next" button, promoting better learning outcomes.
+Version: 1.1
 Author: Gideon Mehna
-URI: https://elyownsoftware.com
+Author URI: https://elyownsoftware.com
+Plugin URI: https://elyownsoftware.com/
+Text Domain: ms-lms-video-monitor
+Domain Path: /languages
+License: GPLv2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 */
+
+// Your plugin code goes here
+?>
+
 
 // Enqueue scripts and styles
 function ms_lms_video_monitor_testing_assets() {
